@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mariTrrs/API-ToDoList#readme",
   "dependencies": {
     "express": "^4.21.0",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "sqlite3": "^5.1.7"
   }
 }
