@@ -1,5 +1,5 @@
 //import {openDb} from "./config/configDB.js";
-import {createTable, insertTarefa} from "../controller/tarefas.js";
+import {createTable, insertTarefa, selectTarefas} from "../controller/tarefas.js";
 
 import express from 'express';
 const app = express();
@@ -16,6 +16,11 @@ app.post('/tarefa', function(req,res){
     res.json({
         "statusCode": 200
     })
+});
+
+app.get('/tarefa', async function(req,res){
+    let tarefas = await selectTarefas();
+    res.json(tarefas);
 });
 
 app.listen(3000, ()=> console.log("api rodando"));

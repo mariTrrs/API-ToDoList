@@ -11,3 +11,10 @@ export async function insertTarefa(tarefa) {
         db.run('INSERT INTO tarefas (title, description, status) VALUES (?,?,?)', [tarefa.title, tarefa.description, tarefa.status]);
     })
 }
+
+export async function selectTarefas() {
+    return openDb().then(db=>{
+        return db.all('SELECT * FROM tarefas')
+        .then(res=>res)
+    });
+}
