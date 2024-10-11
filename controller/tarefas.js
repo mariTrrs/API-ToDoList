@@ -1,11 +1,26 @@
 import { openDb } from '../src/config/configDB.js';
 
+/**
+ * Função createTable()
+ * 
+ * Cria tabela 'tarefas' no banco de dados caso ela não exista. 
+ * A tabela possui id, title, description, status e data.
+ * @async
+ */
 export async function createTable() {
     openDb().then(db =>{
         db.exec('CREATE TABLE IF NOT EXISTS tarefas (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, status TEXT CHECK (status IN("Pendente", "Em Andamento", "Concluída")), data DATETIME DEFAULT CURRENT_TIMESTAMP)');
     })
 }
 
+/**
+ * Função insertTarefa()
+ * 
+ * Insere uma nova tarefa no banco de dados com title, description, status digitados e id e data automáticos.
+ * @async
+ * @param {Object} req - O objeto da requisição vindo do body contendo os dados da tarefa.
+ * @param {Object} res - O objeto de resposta para enviar o status da operação.
+ */
 export async function insertTarefa(req, res) {
     let tarefa = req.body;
     openDb().then(db =>{
@@ -16,6 +31,13 @@ export async function insertTarefa(req, res) {
     })
 }
 
+/**
+ * Função selectTarefas()
+ * Retorna todas as tarefas do banco de dados.
+ * @async
+ * @param {Object} req - O objeto da requisição.
+ * @param {Object} res - O objeto de resposta para enviar as tarefas encontradas.
+ */
 export async function selectTarefas(req,res) {
     openDb().then(db=>{
         db.all('SELECT * FROM tarefas')
@@ -23,6 +45,13 @@ export async function selectTarefas(req,res) {
     });
 }
 
+/**
+ * Função selectByStatus()
+ * Retorna as tarefas registradas no banco de dados com o status fornecido.
+ * @async
+ * @param {Object} req - O objeto da requisição que é o status vindo do body.
+ * @param {Object} res - O objeto de resposta para enviar as tarefas encontradas.
+ */
 export async function selectByStatus(req, res) {
     openDb().then(db => {
         let status = req.body.status;
@@ -31,6 +60,13 @@ export async function selectByStatus(req, res) {
     });
 }
 
+/**
+ * Função updateTarefa()
+ * Atualiza uma tarefa no banco de dados com base no id fornecido.
+ * @async
+ * @param {Object} req - O objeto da requisição contendo os dados da tarefa de acordo com o id digitado no body.
+ * @param {Object} res - O objeto de resposta para enviar o status da operação.
+ */
 export async function updateTarefa(req, res) {
     openDb().then(db => {
         let tarefa = req.body;
@@ -41,6 +77,13 @@ export async function updateTarefa(req, res) {
     })
 }
 
+/**
+ * Função deleteTarefa()
+ * Deleta uma tarefa no banco de dados com base no id fornecido.
+ * @async
+ * @param {Object} req - O objeto da requisição contendo os dados da tarefa de acordo com o id digitado no body.
+ * @param {Object} res - O objeto de resposta para enviar o status da operação.
+ */
 export async function deleteTarefa(req, res) {
     let id = req.body.id;
     openDb().then(db=>{
