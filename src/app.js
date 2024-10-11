@@ -1,5 +1,5 @@
 //import {openDb} from "./config/configDB.js";
-import {createTable, insertTarefa, selectTarefas, selectByStatus, updateTarefa} from "../controller/tarefas.js";
+import {createTable, insertTarefa, selectTarefas, selectByStatus, updateTarefa, deleteTarefa} from "../controller/tarefas.js";
 
 import express from 'express';
 const app = express();
@@ -39,10 +39,27 @@ app.put('/tarefa', async function(req,res) {
     }
 
     await updateTarefa(tarefa); 
-    res.json({
+    res.status(400).json({
         "statusCode": 200,
         "msg": "Tarefa atualizada com sucesso"
     });
 })
+
+app.delete('/tarefa', async function(req,res){
+    let tarefa = await deleteTarefa(req.body.id);
+    if (!req.body.id) {
+        return res.status(400).json({
+            "statusCode": 400,
+            "msg": "É necessário um ID para deletar a tarefa"
+        });
+    }
+
+    await deleteTarefa(tarefa);
+    res.status(200).json({
+        "statusCode": 200,
+        "msg": "Tarefa excluída com sucesso"
+    });
+
+});
 
 app.listen(3000, ()=> console.log("api rodando"));

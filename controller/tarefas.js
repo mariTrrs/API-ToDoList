@@ -32,3 +32,10 @@ export async function updateTarefa(tarefa) {
         .then(res => res);
     });
 }
+
+export async function deleteTarefa(id) {
+    return openDb().then(db=>{
+        return db.run('DELETE FROM tarefas WHERE id=?', [id])
+        .then(res=>res)
+    });
+}
