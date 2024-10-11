@@ -6,36 +6,47 @@ export async function createTable() {
     })
 }
 
-export async function insertTarefa(tarefa) {
+export async function insertTarefa(req, res) {
+    let tarefa = req.body;
     openDb().then(db =>{
         db.run('INSERT INTO tarefas (title, description, status) VALUES (?,?,?)', [tarefa.title, tarefa.description, tarefa.status]);
     })
+    res.json({
+        "statusCode": 200
+    })
 }
 
-export async function selectTarefas() {
-    return openDb().then(db=>{
-        return db.all('SELECT * FROM tarefas')
-        .then(res=>res)
+export async function selectTarefas(req,res) {
+    openDb().then(db=>{
+        db.all('SELECT * FROM tarefas')
+        .then(tarefas=>res.json(tarefas))
     });
 }
 
-export async function selectByStatus(status) {
-    return openDb().then(db => {
-        return db.all('SELECT * FROM tarefas WHERE status = ?', [status.status])
-        .then(res => res);
+export async function selectByStatus(req, res) {
+    openDb().then(db => {
+        let status = req.body.status;
+        db.all('SELECT * FROM tarefas WHERE status = ?', [status])
+        .then(tarefas=>res.json(tarefas));
     });
 }
 
-export async function updateTarefa(tarefa) {
-    return openDb().then(db => {
+export async function updateTarefa(req, res) {
+    openDb().then(db => {
+        let tarefa = req.body;
         db.run('UPDATE tarefas SET title=?, description=?, status=? WHERE id=?', [tarefa.title, tarefa.description, tarefa.status, tarefa.id])
-        .then(res => res);
     });
+    res.json({
+        "statusCode": 200
+    })
 }
 
-export async function deleteTarefa(id) {
-    return openDb().then(db=>{
-        return db.run('DELETE FROM tarefas WHERE id=?', [id])
-        .then(res=>res)
+export async function deleteTarefa(req, res) {
+    let id = req.body.id;
+    openDb().then(db=>{
+        db.run('DELETE FROM tarefas WHERE id=?', [id]);
     });
+    res.json({
+        "statusCode": 200
+    })
 }
