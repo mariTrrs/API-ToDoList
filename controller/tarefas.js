@@ -25,3 +25,10 @@ export async function selectByStatus(status) {
         .then(res => res);
     });
 }
+
+export async function updateTarefa(tarefa) {
+    return openDb().then(db => {
+        db.run('UPDATE tarefas SET title=?, description=?, status=? WHERE id=?', [tarefa.title, tarefa.description, tarefa.status, tarefa.id])
+        .then(res => res);
+    });
+}
