@@ -18,3 +18,10 @@ export async function selectTarefas() {
         .then(res=>res)
     });
 }
+
+export async function selectByStatus(status) {
+    return openDb().then(db => {
+        return db.all('SELECT * FROM tarefas WHERE status = ?', [status.status])
+        .then(res => res);
+    });
+}

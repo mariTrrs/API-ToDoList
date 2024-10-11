@@ -1,5 +1,5 @@
 //import {openDb} from "./config/configDB.js";
-import {createTable, insertTarefa, selectTarefas} from "../controller/tarefas.js";
+import {createTable, insertTarefa, selectTarefas, selectByStatus} from "../controller/tarefas.js";
 
 import express from 'express';
 const app = express();
@@ -20,6 +20,11 @@ app.post('/tarefa', function(req,res){
 
 app.get('/tarefa', async function(req,res){
     let tarefas = await selectTarefas();
+    res.json(tarefas);
+});
+
+app.get('/tarefaByStatus', async function(req,res){
+    let tarefas = await selectByStatus(req.body);
     res.json(tarefas);
 });
 
