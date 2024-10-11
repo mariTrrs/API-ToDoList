@@ -6,11 +6,19 @@
 
 import express from 'express';
 const app = express();
+import {createTable} from "../controller/tarefas.js";
 
 /**
  * Middleware para habilitar o parsing de JSON.
  */
 app.use(express.json());
+
+/**
+ * Função createTable()
+ * Garante que a tabela tarefas seja criada
+ * @async
+ */
+createTable();
 
 /**
  * Configura as rotas principais da aplicação.
