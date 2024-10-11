@@ -68,9 +68,16 @@ export async function selectByStatus(req, res) {
  * @param {Object} res - O objeto de resposta para enviar o status da operação.
  */
 export async function updateTarefa(req, res) {
-    openDb().then(db => {
-        let tarefa = req.body;
-        db.run('UPDATE tarefas SET title=?, description=?, status=? WHERE id=?', [tarefa.title, tarefa.description, tarefa.status, tarefa.id])
+    let { id, title, description, status } = req.body;  // Extraindo os dados do req.body
+
+    if (!id) {
+        return res.status(400).json({
+            "statusCode": 400,
+            "msg": "É necessário fornecer um ID para atualizar a tarefa"
+        });
+    }
+    openDb().then(db => {   
+        db.run('UPDATE tarefas SET title=?, description=?, status=? WHERE id=?', [title, description, status, id])
     });
     res.json({
         "statusCode": 200
@@ -85,8 +92,15 @@ export async function updateTarefa(req, res) {
  * @param {Object} res - O objeto de resposta para enviar o status da operação.
  */
 export async function deleteTarefa(req, res) {
-    let id = req.body.id;
-    openDb().then(db=>{
+    let {id} = req.body;  // Extraindo os dados do req.body
+
+    if (!id) {
+        return res.status(400).json({
+            "statusCode": 400,
+            "msg": "É necessário fornecer um ID para deletar a tarefa"
+        });
+    }
+    openDb().then(db => {   
         db.run('DELETE FROM tarefas WHERE id=?', [id]);
     });
     res.json({
