@@ -1,7 +1,7 @@
 /**
  * app.js
  * Arquivo principal do servidor.
- * Configura middlewares, rotas e inicia o servidor.
+ * Configura rotas e inicia o servidor.
  */
 
 import express from 'express';
@@ -9,7 +9,7 @@ const app = express();
 import {createTable} from "../controller/tarefas.js";
 
 /**
- * Middleware para habilitar o parsing de JSON.
+ * Habilita o parsing de JSON.
  */
 app.use(express.json());
 
